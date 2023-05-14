@@ -13,11 +13,7 @@ const App = () => {
 
     const getData = async () => {
         try {
-            const response = await axios.get(`${ process.env.REACT_APP_SERVER_URL }/todos/`, {
-                params: {
-                    page: 1
-                }
-            })
+            const response = await axios.get(`${ process.env.REACT_APP_SERVER_URL }/todos/`)
 
             setTasks(response.data)
         } catch (e) {
@@ -25,7 +21,9 @@ const App = () => {
         }
     }
 
-    useEffect(() => getData, [])
+    useEffect(() => {
+        getData()
+    }, [])
 
     const sortedTasks = tasks?.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     const indexOfLastTask = currentPage * tasksPerPage
@@ -35,7 +33,6 @@ const App = () => {
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber)
     }
-
 
     return (
         <div className="app">
