@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useCookies } from "react-cookie";
 import Auth from "./Auth";
 
-const ListHeader = ({ listName, getData }) => {
+const ListHeader = ({ listName, getData, notify }) => {
     const [ cookies, setCookies, removeCookies ] = useCookies(null)
     const [ authModal, setAuthModal ] = useState(false)
 
@@ -39,9 +39,11 @@ const ListHeader = ({ listName, getData }) => {
         </div>
         { showModal && <Modal mode={ 'Create' }
                               setShowModal={ setShowModal }
-                              getData={ getData }/> }
+                              getData={ getData }
+                              notify={ notify }/> }
         { authModal && <Auth setAuthModal={ setAuthModal }
-                             getData={ getData }/> }
+                             getData={ getData }
+                             notify={ notify }/> }
 
 
     </div>);

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-const Auth = ({ setAuthModal }) => {
+const Auth = ({ setAuthModal, notify}) => {
     const [ cookies, setCookies] = useCookies(null)
     const [ error, setError ] = useState(false)
     const [ username, setUsername ] = useState("")
@@ -27,6 +27,7 @@ const Auth = ({ setAuthModal }) => {
         } catch (e) {
             if (e.response?.data?.message) {
                 setError(e.response.data.message)
+                notify(error)
             }
         }
     }
@@ -58,7 +59,7 @@ const Auth = ({ setAuthModal }) => {
                                    className="create"
                                    value="Log In"
                                    onClick={ handleSubmit }/>
-                            { error && <p>{ error }</p> }
+                            {/*{ error && <p>{ error }</p> }*/}
                         </form>
                     </div>
                 </div>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-const Modal = ({ mode, setShowModal, getData, task }) => {
+const Modal = ({ mode, setShowModal, getData, task, notify }) => {
     const editMode = mode === 'Edit'
 
     const [ cookies, setCookies, removeCookies ] = useCookies(null)
@@ -23,7 +23,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
     }
 
     const config = {
-        headers: { Authorization: `Bearer ${authToken}` }
+        headers: { Authorization: `Bearer ${ authToken }` }
     };
 
     const handleChange = (e) => {
@@ -35,6 +35,10 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
             } else {
                 setError(false);
             }
+        }
+
+        if (name === 'username') {
+            const result = e.target.value.replace(/[^a-z]/gi, '');
         }
 
         setData(data => ({
@@ -56,6 +60,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
             if (response.status === 200) {
                 setShowModal(false)
                 getData()
+                notify("Task added")
             }
         } catch (e) {
 
@@ -64,7 +69,6 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
 
     const editData = async (e) => {
         e.preventDefault()
-
         try {
             const response = await axios.post(`${ process.env.REACT_APP_SERVER_URL }/todos/update/${ task.id }`, {
                 email: data.email,
@@ -78,7 +82,7 @@ const Modal = ({ mode, setShowModal, getData, task }) => {
                 getData()
             }
         } catch (e) {
-
+            console.log('[e]:', e)
         }
     }
 

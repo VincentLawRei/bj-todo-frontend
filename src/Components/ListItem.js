@@ -5,7 +5,7 @@ import NoIcon from "./NoIcon";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 
-const ListItem = ({ task, getData }) => {
+const ListItem = ({ task, getData, notify }) => {
     const [ showModal, setShowModal ] = useState(false)
     const [ cookies, setCookies, removeCookies ] = useCookies(null)
     const authToken = cookies.AccessToken
@@ -20,6 +20,7 @@ const ListItem = ({ task, getData }) => {
 
             if (response.status === 200) {
                 getData()
+                notify("Task was deleted successfully")
             }
         } catch (err) {
             console.log(err)
@@ -33,7 +34,7 @@ const ListItem = ({ task, getData }) => {
                 <div className="info-container">
                     <div className="task-email">Email: { task.email }</div>
                     <div className="task-username">Username: { task.username }</div>
-                    <div className="task-description">Description: { task.description }</div>
+                    <div className="task-description">Description: { task.description } { task.createdAt === task.updatedAt ? '' : '(updated by admin)' }</div>
                 </div>
             </div>
 
